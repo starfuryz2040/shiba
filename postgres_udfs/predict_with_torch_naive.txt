@@ -1,0 +1,77 @@
+create function predict_with_torch_naive(input_data text) returns text
+    language plpython3u
+as
+$$
+import io
+from torchvision.io import read_image
+import torch
+import torch.nn as nn
+from torchvision.transforms import ToTensor, Compose, Resize
+import numpy as np
+from PIL import Image
+from io import BytesIO
+import base64
+
+# Define your PyTorch model architecture (must match the saved model)
+class CNN(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model = torch.nn.Sequential(
+            torch.nn.Conv2d(in_channels = 3, out_channels = 6, kernel_size = 3, padding = 'same'),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d(kernel_size=2),
+            torch.nn.Conv2d(in_channels = 6, out_channels = 12, kernel_size = 3, padding = 'same'),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d(kernel_size=2),
+            torch.nn.Conv2d(in_channels = 12, out_channels = 24, kernel_size = 3, padding = 'same'),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d(kernel_size=2),
+            torch.nn.Conv2d(in_channels = 24, out_channels = 48, kernel_size = 3, padding = 'same'),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d(kernel_size=2),
+            torch.nn.Conv2d(in_channels = 48, out_channels = 96, kernel_size = 3, padding = 'same'),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d(kernel_size=2),
+            torch.nn.Flatten(),
+            torch.nn.Linear(96*11*18, 128),
+            torch.nn.ReLU(),
+            torch.nn.BatchNorm1d(128),
+            torch.nn.Linear(128, 2),
+            torch.nn.ReLU(),
+            torch.nn.Softmax(dim=1)
+        )
+
+    def forward(self, x):
+        return self.model(x)
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+
+model = CNN().to(device)
+model.load_state_dict(torch.load('/models/mymodel', map_location=torch.device(device)))
+model.eval() # Set the model to evaluation mode
+
+
+
+# Process the input data
+try:
+    img_data = base64.b64decode(input_data)
+    image = Image.open(BytesIO(img_data)).convert('RGB')
+    transform_pipeline = Compose([
+        Resize((375, 600)),  # Height: 375, Width: 600
+        ToTensor()
+    ])
+    tensor = transform_pipeline(image).float()
+
+    with torch.no_grad():  # Disable gradient calculation for inference
+        prediction = model(tensor.unsqueeze(0).to(device))
+        _, y_pred = torch.max(prediction.data, 1)
+
+    return float(y_pred)
+
+except Exception as e:
+    return f"Error during inference: {e}"
+$$;
+
+alter function predict_with_torch_naive(text) owner to postgres;
+

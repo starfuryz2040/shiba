@@ -35,19 +35,19 @@ please install the following
 * postgres plpython3-14
 * clickhouse 25
 * Download the following files and unzip to ./silver
-  * https://www.mediafire.com/file/5v90pk2ow7tyo1k/alt_docs_x5.parquet.7z/file
-  * https://www.mediafire.com/file/zcipirm9y258vyd/labeled_training_set_no_tensor.parquet.7z/file
-  * https://www.mediafire.com/file/mdvkblmmcdj5dj4/labeled_training_set_no_tensor_10k.parquet.7z/file
+  * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/alt_docs_x5_no_dupe.parquet.tar.xz
+  * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/idnet_no_dupe.parquet.tar.xz
+  * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/idnet10k_no_dupe.parquet.tar.xz
+  * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/idnet100k_no_dupe.parquet.tar.xz
 
 ### Installing
 
 * After installing the above, create 3 folders in root. give rw permission to all.
   * runlogs
   * models
-    * copy mymodel and xgboost_model.model to this directory
-    * used by postgres and clickhouse
+    * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/models.tar.xz
   * images (needed for clickhouse only)
-    * https://www.mediafire.com/file/m3d6yktd1rmo9wc/images.7z/file
+    * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/images.tar.xz
 * clickhouse needs two folders created as well. 
   * var/lib/clickhouse/user_scripts
     * copy all py files in our clickhouse_udfs folder there and mirror folder access to parent

@@ -259,7 +259,7 @@ class EvaDB_Naive(DMBSParent):
 
     # %%
     def run(self):
-        for i in range(20, 21):
+        for i in range(1, 21):
 
             self.log = []
 

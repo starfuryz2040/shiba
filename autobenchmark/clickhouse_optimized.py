@@ -289,7 +289,7 @@ class ClickHouseDB_Optimized(DMBSParent):
 
     #%%
     def run(self):
-        for i in range(6,8):
+        for i in range(1,21):
         #for i in [1]:
             self.log = []
 

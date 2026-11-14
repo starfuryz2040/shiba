@@ -401,7 +401,7 @@ class ClickHouseDB_Optimized_Vectorized(DMBSParent):
 
     #%%
     def run(self):
-        for i in range(19,21):
+        for i in range(1,21):
         #for i in [1]:
             self.log = []
 

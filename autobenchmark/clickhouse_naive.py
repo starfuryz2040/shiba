@@ -21,8 +21,8 @@ class ClickHouseDB_Naive(DMBSParent):
         self.target_table = target_table
         self.run_num = run_num
         self.system = "clickhouse"
-        self.udf_type = "optimized++1-pytorch1"
-        self.join_df = "toll_audit"
+        self.udf_type = "naive"
+        self.join_df = "toll_audit_no_dupe"
 
 
 

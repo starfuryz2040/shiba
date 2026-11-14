@@ -561,7 +561,7 @@ class SparkDB_Naive(DMBSParent):
     #%%
     def run(self):
         global monitoring_active
-        for i in range(20,21):
+        for i in range(1,21):
             self.log = []
 
             query = i

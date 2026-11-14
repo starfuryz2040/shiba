@@ -11,36 +11,40 @@ comparison. This code base as of now isn't production ready. If interest persist
 
 ## Getting Started
 
-Dependencies that are relatively straight forward. They must be installed both in your venv as well as system level (sudo pip). 
-postgres and clickhouse do not have documented ways to use their own venv (though some workaround exist). 
+DuckDb, Evadb, and Pysark Python dependencies will need to be installed in the venv the rest of the 
+code base is using. Postgres python dependencies will need to be installed at the system level. Clickhouse dependencies
+can be installed at the system level, but the top line of the UDFS can be set to a path where a venv exists. That path
+is currently set to /shiba_env/bin/python3. Please use the requirements.txt file to install the dependencies.
 
-The development environment was pycharm and dataspell. Pycharm support both py and ipynb files. Dataspell connects to 
-almost every database, which is handy for troubleshooting.
+Any IDE that supports py and ipynb files. Pycharm is recommended. A database management tool such as Datagrip will
+simplify loading of Postgres UDFs, and general troubleshooting. 
 
 ### Dependencies
 
-please install the following
-* OS - Ubuntu 22.04.5 LTS
-* Python 3.10
+please install the following systems
+* OS - Ubuntu 24.04 LTS
+* Clickhouse 25
+* Postgres 18
+* postgres plpython3-18
+* Python 3.12
 * openjdk-21-jdk (with env vars set for home and path)
+* https://pytorch.org/ for pytorch installation. version 2.9.1 is the target. 
+
+
 * Python dependencies
   * evadb 0.3.9
-  * duckdb 1.4.0
+  * duckdb 1.4.1
   * xgboost 3.0.5
-  * torch 2.10
-  * pandas 2.3.2
+  * pandas 1.3.5
   * numpy 2.1.2
-  * pyspark 4.1.1
-* postgres 14
-* postgres plpython3-14
-* clickhouse 25
+  * pyspark 4.0.1
 * Download the following files and unzip to ./silver
   * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/alt_docs_x5_no_dupe.parquet.tar.xz
   * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/idnet_no_dupe.parquet.tar.xz
   * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/idnet10k_no_dupe.parquet.tar.xz
   * https://huggingface.co/datasets/starfuryz2040/shiba/blob/main/idnet100k_no_dupe.parquet.tar.xz
 
-### Installing
+### Installing Shiba
 
 * After installing the above, create 3 folders in root. give rw permission to all.
   * runlogs
@@ -55,7 +59,7 @@ please install the following
   * /etc/clickhouse-server
     * copy all xml files from clickhouse_udfs to that folder
 * copy this entire project as is to target machine
-* use the data_loader scripts to install all data needed in each system
+* use the data_loader scripts in ./data_loaders to install all data needed in each system
   * update user/pass as needed
   * for all systems, use the _no_dupe version of the data loaders
   * evadb should use the alt_loaders. If the smaller tables dont have them, copy and update the bigger table py files

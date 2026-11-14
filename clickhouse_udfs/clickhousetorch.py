@@ -12,7 +12,7 @@ import os
 import torch
 import torch.nn as nn
 from torchvision import datasets, models
-from torchvision.transforms import ToTensor
+from torchvision.transforms import ToTensor, Compose, Resize
 
 #torch.set_num_threads(1)
 #torch.set_num_interop_threads(1)
@@ -84,23 +84,14 @@ class CNN(torch.nn.Module):
 def predict_tensor(file):
 
     file = file.rstrip("\n")
-    try:
-        image = Image.open('/images/' + file + '.PNG')
-        
-        # print(f'{file}.png found')
-    except:
-        try:
-            image = Image.open('/images/' + file + '.JPEG')
+    # print("opening file")
+    image = Image.open('/images/' + file).convert('RGB')
 
-            # print(f'{file}.jpg found')
-        except Exception as e:
-
-                return e
-
-
-    # img_data = base64.b64decode(base64image)
-    # image = Image.open(BytesIO(img_data))
-    tensor = ToTensor()(image).float()
+    transform_pipeline = Compose([
+                Resize((375, 600)),  # Height: 375, Width: 600
+                ToTensor()
+            ])
+    tensor = transform_pipeline(image).float()
 
 
     device = 'cpu'

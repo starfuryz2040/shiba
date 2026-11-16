@@ -21,7 +21,7 @@ class ClickHouseDB_Optimized(DMBSParent):
         self.target_table = target_table
         self.run_num = run_num
         self.system = "clickhouse"
-        self.udf_type = "optimized_no_math"
+        self.udf_type = "optimized_no_vector"
         self.join_df = "toll_audit"
 
 

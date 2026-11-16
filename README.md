@@ -5,8 +5,8 @@ Benchmark framework to analyze and compare sql inference of hybrid/complex data 
 ## Description
 
 We developed a framework to compare multiple popular SQL
-databases and analytic processors in sql inference query execution. Databases were populated with a subset
-of the IDENET dataset. This multimodal and complex data allows for realistic queries and models as a basis of the 
+databases and analytic processors in sql inference query execution with complex DS/ML models. Databases were populated with a subset
+of the IDNET dataset. This multimodal and complex data allows for realistic queries and models as a basis of the 
 comparison. If interest persists, this will be developed further.
 
 ## Getting Started
